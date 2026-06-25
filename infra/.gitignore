@@ -1,0 +1,10 @@
+# Ignore .env — never commit secrets
+.env
+*.db
+*.sqlite
+__pycache__/
+*.pyc
+.DS_Store
+node_modules/
+dist/
+.env.example

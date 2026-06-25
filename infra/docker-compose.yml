@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  backend:
+    build: ../backend
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    volumes:
+      - ../backend:/app
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: nutritrack
+      POSTGRES_PASSWORD: nutritrack
+      POSTGRES_DB: nutritrack
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
