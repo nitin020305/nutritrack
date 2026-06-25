@@ -1,10 +1,38 @@
-# Ignore .env — never commit secrets
+# Environment variables
 .env
+.env.*
+
+# Database files
 *.db
 *.sqlite
+*.sqlite3
+
+# Python cache
 __pycache__/
-*.pyc
-.DS_Store
-node_modules/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Build / distribution
 dist/
+build/
+*.egg-info/
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node.js
+node_modules/
+
+# Logs
+*.log
 .env.example
