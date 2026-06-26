@@ -12,8 +12,13 @@ food_bp = Blueprint("food", __name__)
 
 def _uid():
     return int(get_jwt_identity())
+"""
+returns just the user's ID (an integer) instead of fetching the full User object from the database.
+"""
+#--------------------------------__END__------------------------------------------------------------
 
-# ── LOG FOOD ──────────────────────────────────────────────────────────────────
+
+#-----__LOG FOOD__------------------------------------------------------------------------------------
 @food_bp.route("/log", methods=["POST"])
 @verified_required
 def log_food():
@@ -36,7 +41,7 @@ def log_food():
 
     total_nutrients, enriched_items = calculate_nutrients_for_items(parsed_items)
 
-    food_log = FoodLog(
+    food_log = FoodLog( # FoodLog from models — new DB row
         user_id   = uid,
         log_date  = log_date,
         meal_type = data.get("meal_type", "any"),
@@ -70,9 +75,17 @@ def log_food():
             "sugar_g":    round(total_nutrients["sugar"],    1),
             "sodium_mg":  round(total_nutrients["sodium"],   1),
         }
-    }), 201
+    }), 201 # 201 = "Created" status code, correct for a successful POST that creates a new resource
+"""
+POST /log route (requires verified login) → takes a free-text food description from the user
+(e.g. "2 eggs and toast"), parses it into structured food items, calculates total nutrients,
+saves it as a new FoodLog row, and returns the saved log + breakdown.
+"""
+#--------------------------------__END__------------------------------------------------------------
 
-# ── GET LOGS ──────────────────────────────────────────────────────────────────
+
+
+#-----__GET LOGS__-------------------------------------------------------------------------------------
 @food_bp.route("/log", methods=["GET"])
 @verified_required
 def get_food_logs():
@@ -86,7 +99,10 @@ def get_food_logs():
     logs = query.order_by(FoodLog.log_date.desc(), FoodLog.created_at.desc()).all()
     return jsonify({"logs": [l.to_dict() for l in logs], "count": len(logs)})
 
-# ── DELETE LOG ────────────────────────────────────────────────────────────────
+#--------------------------------__END__------------------------------------------------------------
+
+
+#------ DELETE LOG-----------------------------------------------------------------------------------
 @food_bp.route("/log/<int:log_id>", methods=["DELETE"])
 @verified_required
 def delete_food_log(log_id):
@@ -97,8 +113,10 @@ def delete_food_log(log_id):
     db.session.delete(log)
     db.session.commit()
     return jsonify({"message": f"Log {log_id} deleted"})
+#--------------------------------__END__------------------------------------------------------------
 
-# ── SEARCH FOOD ───────────────────────────────────────────────────────────────
+
+#------__SEARCH FOOD__------------------------------------------------------------------------------
 @food_bp.route("/search", methods=["GET"])
 @verified_required
 def search_food():
@@ -116,3 +134,5 @@ def search_food():
         "food": food_name, "quantity": qty, "unit": unit,
         "grams": round(grams, 1), "nutrients": result, "per_100g": nutrients_per_100g,
     })
+#--------------------------------__END__------------------------------------------------------------
+
