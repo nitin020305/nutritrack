@@ -8,13 +8,19 @@ from app.services.prediction import get_full_prediction, get_calorie_target, cal
 from datetime import date, timedelta
 
 user_bp = Blueprint("user", __name__)
-
+#-------------__GETS CURRENT USER__----------------------------------------------------------------------------------
 def _current_user():
     return User.query.get_or_404(int(get_jwt_identity()))
+""""
+1.get_jwt_identity() reads the user Id stored inside the jwt token
+2. get_or_404 fetches the user from database or if not found returns 404 error from app.models.user
+Working : returns the currently logged-in user object, or 404 if invalid.
+"""
+#------------------------------------__END__----------------------------------------------------
 
-# ── COMPLETE PROFILE (after signup) ──────────────────────────────────────────
+#-----__COMPLETE PROFILE(after signup)__------------------------------------------------------------
 @user_bp.route("/profile", methods=["PUT"])
-@verified_required
+@verified_required  #decorator from utils — blocks unverified users
 def complete_profile():
     """Fill in health details after account creation."""
     user = _current_user()
@@ -36,8 +42,8 @@ def complete_profile():
     user.profile_complete = True
     db.session.commit()
 
-    bmr  = calculate_bmr(user.weight_kg, user.height_cm, user.age, user.gender)
-    tdee = calculate_tdee(bmr, user.activity_level)
+    bmr  = calculate_bmr(user.weight_kg, user.height_cm, user.age, user.gender) #app.services.prediction(calculate_bmr)
+    tdee = calculate_tdee(bmr, user.activity_level) ##app.services.prediction(calculate_tdee)
     return jsonify({
         "message": "Profile saved",
         "user":  user.to_dict(),
@@ -47,10 +53,16 @@ def complete_profile():
             "calorie_target": round(get_calorie_target(tdee, user.goal), 1),
         }
     })
+"""
+1.PUT /profile route (requires verified login) → takes health details from request body
+2.Validates required fields, saves them onto the user object, commits to DB
+3.Calculates BMR/TDEE/calorie target and returns them
+"""
+#--------------------------------__END__-----------------------------------------------------------
 
-# ── GET PROFILE ───────────────────────────────────────────────────────────────
+#-----__GET PROFILE__---------------------------------------------------------------------------------
 @user_bp.route("/profile", methods=["GET"])
-@verified_required
+@verified_required #decorator from utils — blocks unverified users
 def get_profile():
     user = _current_user()
     stats = {}
@@ -63,8 +75,15 @@ def get_profile():
             "calorie_target": round(get_calorie_target(tdee, user.goal), 1),
         }
     return jsonify({"user": user.to_dict(), "stats": stats})
+"""
+1.GET /profile route (requires verified login) → fetches logged-in user
+2.If their profile is already filled in, calculates BMR/TDEE/calorie target;
+3.Returns user info + stats (empty stats if profile incomplete).
+"""
+#--------------------------------__END__------------------------------------------------------------
 
-# ── UPDATE PROFILE ────────────────────────────────────────────────────────────
+
+#-----__UPDATE PROFILE__------------------------------------------------------------------------------
 @user_bp.route("/profile/update", methods=["PUT"])
 @verified_required
 def update_profile():
@@ -72,6 +91,7 @@ def update_profile():
     data = request.get_json() or {}
     fields = ["name","age","gender","height_cm","weight_kg",
               "activity_level","goal","target_weight_kg","target_days"]
+    
     for f in fields:
         if f in data:
             setattr(user, f, data[f])
@@ -88,8 +108,13 @@ def update_profile():
             "calorie_target": round(get_calorie_target(tdee, user.goal), 1),
         }
     })
+""""
+this updated the only fields that user have sent using setattr and then recalculate bmr and tdee and calorie target
+"""
+#--------------------------------__END__------------------------------------------------------------
 
-# ── PREDICTION ────────────────────────────────────────────────────────────────
+
+#------__PREDICTION__----------------------------------------------------------------------------------
 @user_bp.route("/prediction", methods=["GET"])
 @verified_required
 def get_prediction():
@@ -111,3 +136,11 @@ def get_prediction():
         avg_calories = sum(daily.values()) / len(daily)
 
     return jsonify(get_full_prediction(user, avg_calories))
+
+"""
+GET /prediction route (requires verified login) → looks at the user's food logs from the last 7 days,
+averages their daily calorie intake (or falls back to their calorie target if no logs exist),
+then passes that average into a prediction function
+"""
+#--------------------------------__END__------------------------------------------------------------
+
