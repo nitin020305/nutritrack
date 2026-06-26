@@ -120,6 +120,9 @@ async function loadCurrentUser() {
 }
 
 function populateSidebar(user) {
+  const initials = (user.name||'?').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  const avEl = document.getElementById('sb-avatar');
+  if (avEl) avEl.textContent = initials;
   setText('sb-name',  user.name  || 'User');
   setText('sb-email', user.email || '');
 

@@ -4,142 +4,222 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>NutriTrack</title>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link rel="stylesheet" href="/static/css/main.css"/>
 </head>
 <body>
 <div id="toastContainer" class="toast-container"></div>
 
-<!-- LOGIN -->
+<!-- ══ LOGIN ══════════════════════════════════════════════════════ -->
 <div id="screenLogin" class="auth-screen active">
   <div class="auth-wrap">
-    <div class="auth-logo">Nutri<span>Track</span></div>
+    <div class="auth-logo">
+      <div class="auth-logo-dot"></div>NutriTrack
+    </div>
     <div class="auth-title">Welcome back</div>
     <div class="auth-sub">Sign in to continue tracking your nutrition</div>
     <div class="auth-error" id="loginError"></div>
-    <div class="form-group"><label class="form-label">Email</label>
-      <input class="form-input" id="login-email" type="email" placeholder="you@example.com" autocomplete="email"/></div>
-    <div class="form-group"><label class="form-label">Password</label>
-      <div class="pw-wrap"><input class="form-input" id="login-password" type="password" placeholder="••••••••"/>
-        <button class="pw-toggle" onclick="togglePw('login-password',this)">👁</button></div></div>
-    <div style="text-align:right;margin:-8px 0 14px">
-      <a class="link-muted" onclick="showScreen('screenForgot')">Forgot password?</a></div>
-    <button class="btn btn-primary btn-full" id="loginBtn" onclick="login()">Sign In →</button>
-    <div class="auth-switch">Don't have an account? <a onclick="showScreen('screenSignup')">Create one</a></div>
+    <div class="form-group">
+      <label class="form-label">Email address</label>
+      <input class="form-input" id="login-email" type="email" placeholder="you@example.com" autocomplete="email"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <div class="pw-wrap">
+        <input class="form-input" id="login-password" type="password" placeholder="••••••••" autocomplete="current-password"/>
+        <button class="pw-toggle" onclick="togglePw('login-password',this)" tabindex="-1">👁</button>
+      </div>
+    </div>
+    <div style="text-align:right;margin:-6px 0 14px">
+      <a class="link-muted" onclick="showScreen('screenForgot')">Forgot password?</a>
+    </div>
+    <button class="btn btn-primary btn-full" id="loginBtn" onclick="login()">Sign in</button>
+    <div class="auth-switch">No account? <a onclick="showScreen('screenSignup')">Create one free</a></div>
   </div>
 </div>
 
-<!-- SIGNUP -->
+<!-- ══ SIGNUP ═════════════════════════════════════════════════════ -->
 <div id="screenSignup" class="auth-screen">
   <div class="auth-wrap">
-    <div class="auth-logo">Nutri<span>Track</span></div>
+    <div class="auth-logo"><div class="auth-logo-dot"></div>NutriTrack</div>
     <div class="auth-title">Create your account</div>
-    <div class="auth-sub">Free forever — no credit card needed</div>
+    <div class="auth-sub">Free forever — start tracking in seconds</div>
     <div class="auth-error" id="signupError"></div>
-    <div class="form-group"><label class="form-label">Your Name</label>
-      <input class="form-input" id="signup-name" type="text" placeholder="Rahul Sharma"/></div>
-    <div class="form-group"><label class="form-label">Email</label>
-      <input class="form-input" id="signup-email" type="email" placeholder="you@example.com"/></div>
-    <div class="form-group"><label class="form-label">Password</label>
-      <div class="pw-wrap"><input class="form-input" id="signup-password" type="password" placeholder="Min. 6 characters"/>
-        <button class="pw-toggle" onclick="togglePw('signup-password',this)">👁</button></div></div>
-    <div class="form-group"><label class="form-label">Confirm Password</label>
-      <div class="pw-wrap"><input class="form-input" id="signup-confirm" type="password" placeholder="Repeat password"/>
-        <button class="pw-toggle" onclick="togglePw('signup-confirm',this)">👁</button></div></div>
-    <button class="btn btn-primary btn-full" id="signupBtn" onclick="signup()">Create Account →</button>
+    <div class="form-group">
+      <label class="form-label">Your name</label>
+      <input class="form-input" id="signup-name" type="text" placeholder="Rahul Sharma" autocomplete="name"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Email address</label>
+      <input class="form-input" id="signup-email" type="email" placeholder="you@example.com" autocomplete="email"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <div class="pw-wrap">
+        <input class="form-input" id="signup-password" type="password" placeholder="Min. 6 characters" autocomplete="new-password"/>
+        <button class="pw-toggle" onclick="togglePw('signup-password',this)" tabindex="-1">👁</button>
+      </div>
+      <div class="form-hint">At least 6 characters</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Confirm password</label>
+      <div class="pw-wrap">
+        <input class="form-input" id="signup-confirm" type="password" placeholder="Repeat password" autocomplete="new-password"/>
+        <button class="pw-toggle" onclick="togglePw('signup-confirm',this)" tabindex="-1">👁</button>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-full" id="signupBtn" onclick="signup()">Create account</button>
     <div class="auth-switch">Already have an account? <a onclick="showScreen('screenLogin')">Sign in</a></div>
   </div>
 </div>
 
-<!-- FORGOT PASSWORD -->
+<!-- ══ FORGOT PASSWORD ════════════════════════════════════════════ -->
 <div id="screenForgot" class="auth-screen">
   <div class="auth-wrap">
-    <div class="auth-logo">Nutri<span>Track</span></div>
-    <div class="auth-title">Forgot password?</div>
+    <div class="auth-logo"><div class="auth-logo-dot"></div>NutriTrack</div>
+    <div class="auth-title">Forgot your password?</div>
     <div class="auth-sub">Enter your email and we'll send a reset link</div>
     <div class="auth-error" id="forgotError"></div>
     <div id="forgotSuccess" class="auth-success" style="display:none"></div>
-    <div class="form-group"><label class="form-label">Email</label>
-      <input class="form-input" id="forgot-email" type="email" placeholder="you@example.com"/></div>
-    <button class="btn btn-primary btn-full" id="forgotBtn" onclick="forgotPassword()">Send Reset Link</button>
-    <div class="auth-switch"><a onclick="showScreen('screenLogin')">← Back to login</a></div>
+    <div class="form-group">
+      <label class="form-label">Email address</label>
+      <input class="form-input" id="forgot-email" type="email" placeholder="you@example.com"/>
+    </div>
+    <button class="btn btn-primary btn-full" id="forgotBtn" onclick="forgotPassword()">Send reset link</button>
+    <div class="auth-switch"><a onclick="showScreen('screenLogin')">← Back to sign in</a></div>
   </div>
 </div>
 
-<!-- RESET PASSWORD -->
+<!-- ══ RESET PASSWORD ═════════════════════════════════════════════ -->
 <div id="screenReset" class="auth-screen">
   <div class="auth-wrap">
-    <div class="auth-logo">Nutri<span>Track</span></div>
-    <div class="auth-title">Set new password</div>
-    <div class="auth-sub">Enter your new password below</div>
+    <div class="auth-logo"><div class="auth-logo-dot"></div>NutriTrack</div>
+    <div class="auth-title">Set a new password</div>
+    <div class="auth-sub">Choose a strong password for your account</div>
     <div class="auth-error" id="resetError"></div>
-    <div class="form-group"><label class="form-label">New Password</label>
-      <div class="pw-wrap"><input class="form-input" id="reset-password" type="password" placeholder="Min. 6 characters"/>
-        <button class="pw-toggle" onclick="togglePw('reset-password',this)">👁</button></div></div>
-    <div class="form-group"><label class="form-label">Confirm Password</label>
-      <div class="pw-wrap"><input class="form-input" id="reset-confirm" type="password" placeholder="Repeat password"/>
-        <button class="pw-toggle" onclick="togglePw('reset-confirm',this)">👁</button></div></div>
-    <button class="btn btn-primary btn-full" id="resetBtn" onclick="resetPassword()">Reset Password →</button>
+    <div class="form-group">
+      <label class="form-label">New password</label>
+      <div class="pw-wrap">
+        <input class="form-input" id="reset-password" type="password" placeholder="Min. 6 characters"/>
+        <button class="pw-toggle" onclick="togglePw('reset-password',this)" tabindex="-1">👁</button>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Confirm password</label>
+      <div class="pw-wrap">
+        <input class="form-input" id="reset-confirm" type="password" placeholder="Repeat password"/>
+        <button class="pw-toggle" onclick="togglePw('reset-confirm',this)" tabindex="-1">👁</button>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-full" id="resetBtn" onclick="resetPassword()">Reset password</button>
   </div>
 </div>
 
-<!-- PROFILE SETUP OVERLAY -->
+<!-- ══ PROFILE SETUP ══════════════════════════════════════════════ -->
 <div id="setupOverlay" class="overlay">
   <div class="modal">
-    <div style="color:var(--teal);font-size:28px;margin-bottom:8px">💪</div>
     <div class="step-label">One-time setup</div>
     <div class="modal-title">Complete your profile</div>
-    <div class="modal-sub">We need your health details to calculate calories, TDEE, and nutrient goals.</div>
+    <div class="modal-sub">We need your health details to calculate daily calorie targets, TDEE, and goals.</div>
     <div class="form-row">
-      <div class="form-group"><label class="form-label">Age</label><input class="form-input" id="setup-age" type="number" placeholder="28"/></div>
-      <div class="form-group"><label class="form-label">Gender</label>
-        <select class="form-select" id="setup-gender"><option value="male">Male</option><option value="female">Female</option></select></div>
+      <div class="form-group">
+        <label class="form-label">Age</label>
+        <input class="form-input" id="setup-age" type="number" placeholder="28" min="10" max="100"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Gender</label>
+        <select class="form-select" id="setup-gender">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </div>
     </div>
     <div class="form-row">
-      <div class="form-group"><label class="form-label">Height (cm)</label><input class="form-input" id="setup-height" type="number" placeholder="175"/></div>
-      <div class="form-group"><label class="form-label">Weight (kg)</label><input class="form-input" id="setup-weight" type="number" placeholder="72"/></div>
+      <div class="form-group">
+        <label class="form-label">Height (cm)</label>
+        <input class="form-input" id="setup-height" type="number" placeholder="175"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Weight (kg)</label>
+        <input class="form-input" id="setup-weight" type="number" placeholder="72"/>
+      </div>
     </div>
-    <div class="form-group"><label class="form-label">Activity Level</label>
+    <div class="form-group">
+      <label class="form-label">Activity level</label>
       <select class="form-select" id="setup-activity">
-        <option value="sedentary">🪑 Sedentary</option><option value="light">🚶 Light</option>
-        <option value="moderate" selected>🏃 Moderate</option><option value="active">💪 Active</option>
-        <option value="very_active">🔥 Very Active</option>
-      </select></div>
-    <div class="form-row">
-      <div class="form-group"><label class="form-label">Goal</label>
-        <select class="form-select" id="setup-goal">
-          <option value="lose">📉 Lose Weight</option><option value="gain">📈 Gain</option><option value="maintain">⚖️ Maintain</option>
-        </select></div>
-      <div class="form-group"><label class="form-label">Target Weight (kg)</label><input class="form-input" id="setup-target-weight" type="number" placeholder="Optional"/></div>
+        <option value="sedentary">Sedentary — desk job, little exercise</option>
+        <option value="light">Light — 1–3 days/week</option>
+        <option value="moderate" selected>Moderate — 3–5 days/week</option>
+        <option value="active">Active — 6–7 days/week</option>
+        <option value="very_active">Very active — physical job + training</option>
+      </select>
     </div>
-    <div class="form-group"><label class="form-label">Target Days</label><input class="form-input" id="setup-target-days" type="number" placeholder="Optional"/></div>
-    <button class="btn btn-primary btn-full" id="setupBtn" onclick="saveProfile()">Save & Start Tracking →</button>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Goal</label>
+        <select class="form-select" id="setup-goal">
+          <option value="lose">Lose weight</option>
+          <option value="gain">Gain weight</option>
+          <option value="maintain">Maintain weight</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Target weight (kg)</label>
+        <input class="form-input" id="setup-target-weight" type="number" placeholder="Optional"/>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Target days</label>
+      <input class="form-input" id="setup-target-days" type="number" placeholder="Optional — e.g. 90"/>
+    </div>
+    <button class="btn btn-primary btn-full" id="setupBtn" onclick="saveProfile()">Save and start tracking</button>
   </div>
 </div>
 
-<!-- APP SHELL -->
+<!-- ══ APP SHELL ══════════════════════════════════════════════════ -->
 <div id="appShell" class="app">
   <aside class="sidebar">
     <div class="logo">
-      <div class="logo-mark">Nutri<span style="color:var(--text)">Track</span></div>
-      <div class="logo-sub">Daily Fuel</div>
+      <div class="logo-icon">🥗</div>
+      <div class="logo-text">Nutri<span>Track</span></div>
     </div>
     <nav class="nav">
-      <div class="nav-item active" data-page="dashboard" onclick="showPage(this)"><span class="nav-icon">⚡</span><span>Dashboard</span></div>
-      <div class="nav-item" data-page="log" onclick="showPage(this)"><span class="nav-icon">🍽️</span><span>Log Food</span></div>
-      <div class="nav-item" data-page="analytics" onclick="showPage(this)"><span class="nav-icon">📊</span><span>Analytics</span></div>
-      <div class="nav-item" data-page="profile" onclick="showPage(this)"><span class="nav-icon">👤</span><span>Profile</span></div>
-      <div class="nav-item" data-page="admin" id="adminNavItem" onclick="showPage(this)" style="display:none"><span class="nav-icon">🛡️</span><span>Admin</span></div>
+      <div class="nav-section-label">Main</div>
+      <div class="nav-item active" data-page="dashboard" onclick="showPage(this)">
+        <div class="nav-icon-wrap">⚡</div><span>Dashboard</span>
+      </div>
+      <div class="nav-item" data-page="log" onclick="showPage(this)">
+        <div class="nav-icon-wrap">🍽</div><span>Log food</span>
+      </div>
+      <div class="nav-item" data-page="analytics" onclick="showPage(this)">
+        <div class="nav-icon-wrap">📊</div><span>Analytics</span>
+      </div>
+      <div class="nav-section-label" style="margin-top:8px">Account</div>
+      <div class="nav-item" data-page="profile" onclick="showPage(this)">
+        <div class="nav-icon-wrap">👤</div><span>Profile</span>
+      </div>
+      <div class="nav-item" data-page="admin" id="adminNavItem" onclick="showPage(this)" style="display:none">
+        <div class="nav-icon-wrap">🛡</div><span>Admin</span>
+      </div>
     </nav>
     <div class="sidebar-footer">
       <div id="verifyBanner" class="verify-banner" style="display:none">
-        <div style="font-size:11px;margin-bottom:6px;color:var(--amber)">⚠ Email not verified</div>
-        <button class="btn btn-ghost btn-sm btn-full" onclick="resendVerification()">Resend Email</button>
+        <div class="verify-banner-title">Email not verified</div>
+        <div class="verify-banner-sub">Check your inbox for the link</div>
+        <button class="btn btn-ghost btn-sm btn-full" onclick="resendVerification()" style="font-size:11px">Resend email</button>
       </div>
-      <div class="sidebar-user-name" id="sb-name">—</div>
-      <div class="sidebar-user-email" id="sb-email">—</div>
-      <div id="sb-role-badge" class="role-badge" style="display:none"></div>
-      <button class="sidebar-logout" onclick="logout()"><span>🚪</span><span>Sign Out</span></button>
+      <div class="sidebar-user-card">
+        <div class="sidebar-user-info">
+          <div class="sidebar-avatar" id="sb-avatar">?</div>
+          <div>
+            <div class="sidebar-user-name" id="sb-name">—</div>
+            <div class="sidebar-user-email" id="sb-email">—</div>
+          </div>
+        </div>
+        <div id="sb-role-badge"></div>
+      </div>
+      <button class="sidebar-logout" onclick="logout()">🚪 <span>Sign out</span></button>
     </div>
   </aside>
 
@@ -147,11 +227,14 @@
 
     <!-- DASHBOARD -->
     <div id="page-dashboard" class="page active">
-      <div class="page-header"><div class="page-title">Today's Dashboard</div><div class="page-subtitle" id="dash-date">—</div></div>
-      <div class="ring-wrap" style="margin-bottom:16px">
+      <div class="page-header">
+        <div class="page-title">Dashboard</div>
+        <div class="page-subtitle" id="dash-date">—</div>
+      </div>
+      <div class="ring-wrap" style="margin-bottom:14px">
         <div class="ring-svg-wrap">
-          <svg viewBox="0 0 100 100" width="120" height="120">
-            <circle class="ring-track" cx="50" cy="50" r="45"/>
+          <svg viewBox="0 0 100 100" width="116" height="116">
+            <circle class="ring-bg" cx="50" cy="50" r="45"/>
             <circle class="ring-fill" id="ringFill" cx="50" cy="50" r="45"/>
           </svg>
           <div class="ring-center">
@@ -160,108 +243,154 @@
           </div>
         </div>
         <div class="ring-info">
-          <div class="ring-info-title">Today's Macros</div>
-          <div class="macro-bar-row"><div class="macro-bar-label"><span>Protein</span><span id="bar-protein-val">0/0g</span></div><div class="macro-bar-track"><div class="macro-bar-fill bar-protein" id="bar-protein" style="width:0%"></div></div></div>
-          <div class="macro-bar-row"><div class="macro-bar-label"><span>Carbs</span><span id="bar-carbs-val">0/0g</span></div><div class="macro-bar-track"><div class="macro-bar-fill bar-carbs" id="bar-carbs" style="width:0%"></div></div></div>
-          <div class="macro-bar-row"><div class="macro-bar-label"><span>Fat</span><span id="bar-fat-val">0/0g</span></div><div class="macro-bar-track"><div class="macro-bar-fill bar-fat" id="bar-fat" style="width:0%"></div></div></div>
-          <div class="macro-bar-row"><div class="macro-bar-label"><span>Fiber</span><span id="bar-fiber-val">0/0g</span></div><div class="macro-bar-track"><div class="macro-bar-fill bar-fiber" id="bar-fiber" style="width:0%"></div></div></div>
+          <div class="ring-info-title">Today's macros</div>
+          <div class="macro-bar-row">
+            <div class="macro-bar-label"><span>Protein</span><span id="bar-protein-val">0/0g</span></div>
+            <div class="macro-bar-track"><div class="macro-bar-fill bar-protein" id="bar-protein" style="width:0%"></div></div>
+          </div>
+          <div class="macro-bar-row">
+            <div class="macro-bar-label"><span>Carbs</span><span id="bar-carbs-val">0/0g</span></div>
+            <div class="macro-bar-track"><div class="macro-bar-fill bar-carbs" id="bar-carbs" style="width:0%"></div></div>
+          </div>
+          <div class="macro-bar-row">
+            <div class="macro-bar-label"><span>Fat</span><span id="bar-fat-val">0/0g</span></div>
+            <div class="macro-bar-track"><div class="macro-bar-fill bar-fat" id="bar-fat" style="width:0%"></div></div>
+          </div>
+          <div class="macro-bar-row">
+            <div class="macro-bar-label"><span>Fiber</span><span id="bar-fiber-val">0/0g</span></div>
+            <div class="macro-bar-track"><div class="macro-bar-fill bar-fiber" id="bar-fiber" style="width:0%"></div></div>
+          </div>
         </div>
       </div>
-      <div class="grid-4" style="margin-bottom:16px">
+      <div class="grid-4" style="margin-bottom:14px">
         <div class="stat-card stat-teal"><div class="stat-label">BMR</div><div class="stat-value" id="stat-bmr">—</div><div class="stat-unit">kcal at rest</div></div>
-        <div class="stat-card stat-amber"><div class="stat-label">TDEE</div><div class="stat-value" id="stat-tdee">—</div><div class="stat-unit">kcal/day</div></div>
-        <div class="stat-card stat-violet"><div class="stat-label">Remaining</div><div class="stat-value" id="stat-remaining">—</div><div class="stat-unit">kcal left</div></div>
-        <div class="stat-card stat-rose"><div class="stat-label">Sodium</div><div class="stat-value" id="stat-sodium">—</div><div class="stat-unit">mg / 2300</div></div>
+        <div class="stat-card stat-blue"><div class="stat-label">TDEE</div><div class="stat-value" id="stat-tdee">—</div><div class="stat-unit">kcal/day target</div></div>
+        <div class="stat-card stat-amber"><div class="stat-label">Remaining</div><div class="stat-value" id="stat-remaining">—</div><div class="stat-unit">kcal left today</div></div>
+        <div class="stat-card stat-rose"><div class="stat-label">Sodium</div><div class="stat-value" id="stat-sodium">—</div><div class="stat-unit">mg / 2300 mg</div></div>
       </div>
-      <div class="card" style="margin-bottom:16px">
-        <div class="card-title">⚖️ Weight Prediction</div>
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-title">Weight prediction</div>
         <div class="prediction-row">
           <div class="pred-card"><div class="pred-label">Current</div><div class="pred-weight pred-neutral" id="pred-now">—</div><div class="pred-delta pred-neutral">kg</div></div>
-          <div class="pred-card"><div class="pred-label">After 7 Days</div><div class="pred-weight" id="pred-7d">—</div><div class="pred-delta" id="pred-7d-delta">—</div></div>
-          <div class="pred-card"><div class="pred-label">After 30 Days</div><div class="pred-weight" id="pred-30d">—</div><div class="pred-delta" id="pred-30d-delta">—</div></div>
+          <div class="pred-card"><div class="pred-label">After 7 days</div><div class="pred-weight" id="pred-7d">—</div><div class="pred-delta" id="pred-7d-delta">—</div></div>
+          <div class="pred-card"><div class="pred-label">After 30 days</div><div class="pred-weight" id="pred-30d">—</div><div class="pred-delta" id="pred-30d-delta">—</div></div>
         </div>
       </div>
       <div class="grid-2">
-        <div class="card"><div class="card-title">Goal vs Actual</div><img id="chartGoalActual" class="chart-img" style="display:none"/><div id="chartGoalActualEmpty" class="empty-state"><div class="empty-icon">📊</div><div>Log food to see chart</div></div></div>
-        <div class="card"><div class="card-title">Macro Breakdown</div><img id="chartMacro" class="chart-img" style="display:none"/><div id="chartMacroEmpty" class="empty-state"><div class="empty-icon">🥧</div><div>Log food to see chart</div></div></div>
+        <div class="card">
+          <div class="card-title">Goal vs actual</div>
+          <img id="chartGoalActual" class="chart-img" style="display:none"/>
+          <div id="chartGoalActualEmpty" class="empty-state" style="padding:28px"><div class="empty-icon">📊</div><div>Log food to see chart</div></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Macro breakdown</div>
+          <img id="chartMacro" class="chart-img" style="display:none"/>
+          <div id="chartMacroEmpty" class="empty-state" style="padding:28px"><div class="empty-icon">🥧</div><div>Log food to see chart</div></div>
+        </div>
       </div>
     </div>
 
     <!-- LOG FOOD -->
     <div id="page-log" class="page">
-      <div class="page-header"><div class="page-title">Log Food</div><div class="page-subtitle">Type what you ate in plain language</div></div>
-      <div class="card" style="margin-bottom:20px">
-        <div class="card-title">🍴 What did you eat?</div>
-        <div class="form-row" style="margin-bottom:14px">
-          <div class="form-group" style="margin-bottom:0"><label class="form-label">Meal Type</label>
-            <select class="form-select" id="meal-type"><option value="breakfast">🌅 Breakfast</option><option value="lunch" selected>☀️ Lunch</option><option value="dinner">🌙 Dinner</option><option value="snack">🍎 Snack</option></select></div>
-          <div class="form-group" style="margin-bottom:0"><label class="form-label">Date</label><input type="date" class="form-input" id="log-date"/></div>
+      <div class="page-header"><div class="page-title">Log food</div><div class="page-subtitle">Type what you ate in plain language</div></div>
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-title">What did you eat?</div>
+        <div class="form-row" style="margin-bottom:12px">
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label">Meal type</label>
+            <select class="form-select" id="meal-type">
+              <option value="breakfast">Breakfast</option>
+              <option value="lunch" selected>Lunch</option>
+              <option value="dinner">Dinner</option>
+              <option value="snack">Snack</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label">Date</label>
+            <input type="date" class="form-input" id="log-date"/>
+          </div>
         </div>
         <div class="food-input-area">
           <textarea class="food-textarea" id="foodInput" rows="3" placeholder="e.g. ladyfinger 1 bowl with 4 roti and 1 banana"></textarea>
           <div class="food-input-footer">
             <div class="food-examples">Try: <span>dal 1 katori, rice 1 cup</span> · <span>paneer 100g</span> · <span>2 boiled eggs</span></div>
-            <button class="btn btn-primary" id="logBtn" onclick="logFood()"><span>Log</span><span>→</span></button>
+            <button class="btn btn-primary" id="logBtn" onclick="logFood()">Log →</button>
           </div>
         </div>
       </div>
-      <div id="parsePreview" style="display:none" class="card" style="margin-bottom:20px"></div>
+      <div id="parsePreview" style="display:none" class="card" style="margin-bottom:14px"></div>
       <div class="card">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-          <div class="card-title" style="margin-bottom:0">📋 Today's Meals</div>
-          <button class="btn btn-ghost btn-sm" onclick="loadTodayLogs()">↻ Refresh</button>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div class="card-title" style="margin-bottom:0">Today's meals</div>
+          <button class="btn btn-ghost btn-sm" onclick="loadTodayLogs()">Refresh</button>
         </div>
-        <div id="logTableWrap"><div class="loading-state"><div class="spinner"></div> Loading logs…</div></div>
+        <div id="logTableWrap"><div class="loading-state"><div class="spinner"></div> Loading…</div></div>
       </div>
     </div>
 
     <!-- ANALYTICS -->
     <div id="page-analytics" class="page">
-      <div class="page-header"><div class="page-title">Analytics</div><div class="page-subtitle">Daily · Weekly · Monthly</div></div>
-      <div style="display:flex;gap:8px;margin-bottom:20px">
-        <button class="btn btn-primary" id="tab-daily" onclick="switchTab('daily')">Daily</button>
-        <button class="btn btn-ghost" id="tab-weekly" onclick="switchTab('weekly')">7 Days</button>
-        <button class="btn btn-ghost" id="tab-monthly" onclick="switchTab('monthly')">30 Days</button>
+      <div class="page-header"><div class="page-title">Analytics</div><div class="page-subtitle">Daily, weekly, and monthly breakdowns</div></div>
+      <div style="display:flex;gap:6px;margin-bottom:18px">
+        <button class="btn btn-primary" id="tab-daily"   onclick="switchTab('daily')">Daily</button>
+        <button class="btn btn-ghost"   id="tab-weekly"  onclick="switchTab('weekly')">7 days</button>
+        <button class="btn btn-ghost"   id="tab-monthly" onclick="switchTab('monthly')">30 days</button>
       </div>
-      <div id="atab-daily"><div class="date-row"><input type="date" id="analytics-date"/><button class="btn btn-primary btn-sm" onclick="loadDailyAnalytics()">Load</button></div><div id="daily-content"><div class="loading-state"><div class="spinner"></div></div></div></div>
-      <div id="atab-weekly" style="display:none"><div id="weekly-content"><div class="loading-state"><div class="spinner"></div></div></div></div>
+      <div id="atab-daily">
+        <div class="date-row">
+          <input type="date" id="analytics-date"/>
+          <button class="btn btn-primary btn-sm" onclick="loadDailyAnalytics()">Load</button>
+        </div>
+        <div id="daily-content"><div class="loading-state"><div class="spinner"></div></div></div>
+      </div>
+      <div id="atab-weekly"  style="display:none"><div id="weekly-content"><div class="loading-state"><div class="spinner"></div></div></div></div>
       <div id="atab-monthly" style="display:none"><div id="monthly-content"><div class="loading-state"><div class="spinner"></div></div></div></div>
     </div>
 
     <!-- PROFILE -->
     <div id="page-profile" class="page">
-      <div class="page-header"><div class="page-title">Profile</div><div class="page-subtitle">Health info, account settings</div></div>
+      <div class="page-header"><div class="page-title">Profile</div><div class="page-subtitle">Health info and account settings</div></div>
       <div class="grid-2">
         <div>
-          <div class="card" style="margin-bottom:16px">
-            <div class="card-title">Health Info</div>
+          <div class="card" style="margin-bottom:14px">
+            <div class="card-title">Health info</div>
             <div class="form-row">
               <div class="form-group"><label class="form-label">Name</label><input class="form-input" id="p-name"/></div>
               <div class="form-group"><label class="form-label">Age</label><input class="form-input" id="p-age" type="number"/></div>
             </div>
             <div class="form-row">
-              <div class="form-group"><label class="form-label">Gender</label><select class="form-select" id="p-gender"><option value="male">Male</option><option value="female">Female</option></select></div>
-              <div class="form-group"><label class="form-label">Activity</label><select class="form-select" id="p-activity"><option value="sedentary">Sedentary</option><option value="light">Light</option><option value="moderate">Moderate</option><option value="active">Active</option><option value="very_active">Very Active</option></select></div>
+              <div class="form-group"><label class="form-label">Gender</label>
+                <select class="form-select" id="p-gender"><option value="male">Male</option><option value="female">Female</option></select>
+              </div>
+              <div class="form-group"><label class="form-label">Activity</label>
+                <select class="form-select" id="p-activity">
+                  <option value="sedentary">Sedentary</option><option value="light">Light</option>
+                  <option value="moderate">Moderate</option><option value="active">Active</option>
+                  <option value="very_active">Very active</option>
+                </select>
+              </div>
             </div>
             <div class="form-row">
               <div class="form-group"><label class="form-label">Height (cm)</label><input class="form-input" id="p-height" type="number"/></div>
               <div class="form-group"><label class="form-label">Weight (kg)</label><input class="form-input" id="p-weight" type="number"/></div>
             </div>
             <div class="form-row">
-              <div class="form-group"><label class="form-label">Goal</label><select class="form-select" id="p-goal"><option value="lose">Lose Weight</option><option value="gain">Gain Weight</option><option value="maintain">Maintain</option></select></div>
-              <div class="form-group"><label class="form-label">Target Weight (kg)</label><input class="form-input" id="p-target-weight" type="number"/></div>
+              <div class="form-group"><label class="form-label">Goal</label>
+                <select class="form-select" id="p-goal"><option value="lose">Lose weight</option><option value="gain">Gain weight</option><option value="maintain">Maintain</option></select>
+              </div>
+              <div class="form-group"><label class="form-label">Target weight (kg)</label><input class="form-input" id="p-target-weight" type="number"/></div>
             </div>
-            <div class="form-group"><label class="form-label">Target Days</label><input class="form-input" id="p-target-days" type="number"/></div>
-            <button class="btn btn-primary btn-full" onclick="updateProfile()">Save Changes</button>
+            <div class="form-group"><label class="form-label">Target days</label><input class="form-input" id="p-target-days" type="number"/></div>
+            <button class="btn btn-primary btn-full" onclick="updateProfile()">Save changes</button>
           </div>
         </div>
         <div>
-          <div class="card" style="margin-bottom:16px">
-            <div class="card-title">Your Stats</div>
+          <div class="card" style="margin-bottom:14px">
+            <div class="card-title">Your stats</div>
             <div class="grid-2" style="gap:10px">
-              <div class="stat-card stat-teal" style="padding:12px 14px"><div class="stat-label">BMR</div><div class="stat-value" style="font-size:20px" id="p-bmr">—</div></div>
-              <div class="stat-card stat-amber" style="padding:12px 14px"><div class="stat-label">TDEE</div><div class="stat-value" style="font-size:20px" id="p-tdee">—</div></div>
-              <div class="stat-card stat-violet" style="padding:12px 14px"><div class="stat-label">Cal Target</div><div class="stat-value" style="font-size:20px" id="p-cal-target">—</div></div>
+              <div class="stat-card stat-teal" style="padding:12px"><div class="stat-label">BMR</div><div class="stat-value" style="font-size:20px" id="p-bmr">—</div></div>
+              <div class="stat-card stat-blue" style="padding:12px"><div class="stat-label">TDEE</div><div class="stat-value" style="font-size:20px" id="p-tdee">—</div></div>
+              <div class="stat-card stat-amber" style="padding:12px"><div class="stat-label">Calorie target</div><div class="stat-value" style="font-size:20px" id="p-cal-target">—</div></div>
             </div>
           </div>
           <div class="card">
@@ -269,46 +398,44 @@
             <div class="form-group">
               <label class="form-label">Email</label>
               <div style="display:flex;align-items:center;gap:8px">
-                <input class="form-input" id="p-email" disabled style="opacity:.5;flex:1"/>
+                <input class="form-input" id="p-email" disabled style="flex:1"/>
                 <span id="p-verified-badge"></span>
               </div>
             </div>
             <div class="divider"></div>
-            <div class="card-title">Change Password</div>
-            <div class="form-group"><label class="form-label">Current Password</label><input class="form-input" id="p-curr-pw" type="password" placeholder="••••••••"/></div>
-            <div class="form-group"><label class="form-label">New Password</label><input class="form-input" id="p-new-pw" type="password" placeholder="Min 6 characters"/></div>
-            <button class="btn btn-ghost btn-full" onclick="changePassword()">Update Password</button>
+            <div class="section-head"><div class="section-head-line"></div><div class="section-head-label">Change password</div><div class="section-head-line"></div></div>
+            <div class="form-group"><label class="form-label">Current password</label><input class="form-input" id="p-curr-pw" type="password" placeholder="••••••••"/></div>
+            <div class="form-group"><label class="form-label">New password</label><input class="form-input" id="p-new-pw" type="password" placeholder="Min 6 characters"/></div>
+            <button class="btn btn-ghost btn-full" onclick="changePassword()">Update password</button>
             <div class="divider"></div>
-            <button class="btn btn-danger btn-full" onclick="confirmDeleteAccount()">🗑 Delete Account</button>
+            <button class="btn btn-danger btn-full" onclick="confirmDeleteAccount()">Delete account</button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ADMIN PANEL -->
+    <!-- ADMIN -->
     <div id="page-admin" class="page">
-      <div class="page-header"><div class="page-title">🛡️ Admin Panel</div><div class="page-subtitle">Platform management</div></div>
-      <!-- Stats row -->
-      <div id="adminStatsRow" class="grid-4" style="margin-bottom:20px">
-        <div class="stat-card stat-teal"><div class="stat-label">Total Users</div><div class="stat-value" id="a-total-users">—</div></div>
-        <div class="stat-card stat-violet"><div class="stat-label">Verified</div><div class="stat-value" id="a-verified">—</div></div>
+      <div class="page-header"><div class="page-title">Admin panel</div><div class="page-subtitle">Platform management</div></div>
+      <div class="grid-4" style="margin-bottom:18px">
+        <div class="stat-card stat-teal"><div class="stat-label">Total users</div><div class="stat-value" id="a-total-users">—</div></div>
+        <div class="stat-card stat-blue"><div class="stat-label">Verified</div><div class="stat-value" id="a-verified">—</div></div>
         <div class="stat-card stat-amber"><div class="stat-label">New (7d)</div><div class="stat-value" id="a-new-7d">—</div></div>
-        <div class="stat-card stat-rose"><div class="stat-label">Total Logs</div><div class="stat-value" id="a-total-logs">—</div></div>
+        <div class="stat-card stat-rose"><div class="stat-label">Total logs</div><div class="stat-value" id="a-total-logs">—</div></div>
       </div>
-      <!-- Users table -->
       <div class="card">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
           <div class="card-title" style="margin-bottom:0">Users</div>
-          <div style="display:flex;gap:8px">
-            <input class="form-input" id="admin-search" placeholder="Search name or email…" style="width:220px;padding:7px 12px;font-size:13px" oninput="loadAdminUsers()"/>
-            <select class="form-select" id="admin-role-filter" onchange="loadAdminUsers()" style="width:110px;padding:7px 12px;font-size:13px">
+          <div style="display:flex;gap:7px">
+            <input class="form-input" id="admin-search" placeholder="Search…" style="width:180px;padding:6px 10px;font-size:12px" oninput="loadAdminUsers()"/>
+            <select class="form-select" id="admin-role-filter" onchange="loadAdminUsers()" style="width:100px;padding:6px 10px;font-size:12px">
               <option value="">All roles</option><option value="user">User</option><option value="admin">Admin</option>
             </select>
             <button class="btn btn-ghost btn-sm" onclick="loadAdminUsers()">↻</button>
           </div>
         </div>
         <div id="adminUsersTable"><div class="loading-state"><div class="spinner"></div> Loading…</div></div>
-        <div id="adminPagination" style="display:flex;gap:8px;margin-top:14px;justify-content:center"></div>
+        <div id="adminPagination" style="display:flex;gap:6px;margin-top:12px;justify-content:center"></div>
       </div>
     </div>
 
