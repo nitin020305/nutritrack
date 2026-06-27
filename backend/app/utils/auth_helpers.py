@@ -8,7 +8,7 @@ from app.models.user import User
 
 def admin_required(fn):
     """Decorator: JWT required + role must be 'admin'."""
-    @wraps(fn)
+    @wraps(fn)  # functools.wraps — preserves fn's original name/docstring (avoids Flask route-naming conflicts)
     def wrapper(*args, **kwargs):
         verify_jwt_in_request()
         uid  = int(get_jwt_identity())
