@@ -2,6 +2,8 @@
 Converts Indian and common food units to grams.
 Covers: bowl, katori, roti, plate, cup, glass, piece, slice, tbsp, tsp, handful
 """
+##backend\app\utils\unit_converter.py
+
 
 # Default grams per unit per food category
 UNIT_MAP = {
@@ -60,17 +62,6 @@ FOOD_PIECE_GRAMS = {
 }
 
 def to_grams(food_name: str, quantity: float, unit: str) -> float:
-    """
-    Convert food quantity in a given unit to grams.
-
-    Args:
-        food_name: e.g. "roti", "banana"
-        quantity: numeric amount e.g. 4, 1.5
-        unit: e.g. "bowl", "piece", "roti" (bare count)
-
-    Returns:
-        float: weight in grams
-    """
     food_lower = food_name.lower().strip()
     unit_lower = unit.lower().strip() if unit else "piece"
 
