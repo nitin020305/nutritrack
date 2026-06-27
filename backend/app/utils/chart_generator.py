@@ -2,11 +2,12 @@
 Generates nutrient comparison charts (goal vs actual).
 Returns charts as base64-encoded PNG strings for API responses.
 """
+##backend\app\utils\chart_generator.py
 
 import io
 import base64
 import matplotlib
-matplotlib.use("Agg")   # Non-interactive backend (no display needed)
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import numpy as np
@@ -14,8 +15,8 @@ import numpy as np
 CHART_STYLE = {
     "bg": "#0f1117",
     "surface": "#1a1d27",
-    "accent_goal": "#4ade80",    # green
-    "accent_actual": "#f97316",  # orange
+    "accent_goal": "#4ade80",
+    "accent_actual": "#f97316",
     "text": "#e2e8f0",
     "subtext": "#94a3b8",
     "grid": "#2d3748",
@@ -30,19 +31,13 @@ def _fig_to_base64(fig) -> str:
     encoded = base64.b64encode(buf.read()).decode("utf-8")
     plt.close(fig)
     return encoded
+""""
+used in every funtion of this file
+"""
 
-def generate_goal_vs_actual_chart(goal_nutrients: dict, actual_nutrients: dict,
-                                   title: str = "Today's Nutrients") -> str:
-    """
-    Bar chart comparing goal vs actual nutrients.
 
-    Args:
-        goal_nutrients: {calories, protein_g, carbs_g, fat_g, fiber_g}
-        actual_nutrients: same keys
 
-    Returns:
-        base64-encoded PNG string
-    """
+def generate_goal_vs_actual_chart(goal_nutrients: dict, actual_nutrients: dict, title: str = "Today's Nutrients") -> str:
     labels = ["Calories\n(kcal)", "Protein\n(g)", "Carbs\n(g)", "Fat\n(g)", "Fiber\n(g)"]
     keys = ["calories", "protein_g", "carbs_g", "fat_g", "fiber_g"]
 
@@ -88,17 +83,9 @@ def generate_goal_vs_actual_chart(goal_nutrients: dict, actual_nutrients: dict,
     plt.tight_layout()
     return _fig_to_base64(fig)
 
+
+
 def generate_weekly_trend_chart(daily_data: list, calorie_goal: float) -> str:
-    """
-    Line chart of daily calories over the past 7 days vs goal.
-
-    Args:
-        daily_data: [{date, calories}, ...] sorted oldest to newest
-        calorie_goal: daily target
-
-    Returns:
-        base64-encoded PNG string
-    """
     dates = [d["date"] for d in daily_data]
     calories = [d["calories"] for d in daily_data]
 
@@ -132,12 +119,9 @@ def generate_weekly_trend_chart(daily_data: list, calorie_goal: float) -> str:
     plt.tight_layout()
     return _fig_to_base64(fig)
 
-def generate_macros_pie_chart(calories: float, protein_g: float,
-                               carbs_g: float, fat_g: float) -> str:
-    """
-    Donut chart showing macronutrient breakdown.
-    Returns base64 PNG.
-    """
+
+
+def generate_macros_pie_chart(calories: float, protein_g: float, carbs_g: float, fat_g: float) -> str:
     protein_kcal = protein_g * 4
     carbs_kcal = carbs_g * 4
     fat_kcal = fat_g * 9
